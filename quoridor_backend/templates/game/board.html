@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quoridor Web</title>
+    <link rel="stylesheet" href="{% static 'game/css/game.css' %}">
+</head>
+<body>
+    <div id="game-container">
+        <h1>Quoridor</h1>
+        <div id="game-status">
+            Current Player: <span id="current-player">{{ game.current_player.username }}</span>
+            | Player 1 Fences: <span id="p1-fences">{{ game.player1_fences }}</span>
+            | Player 2 Fences: <span id="p2-fences">{{ game.player2_fences }}</span>
+        </div>
+        
+        <div class="board">
+            {% for y in 9|times %}
+            <div class="row">
+                {% for x in 9|times %}
+                <div class="cell" id="cell-{{x}}-{{y}}" 
+                     data-x="{{x}}" data-y="{{y}}">
+                    {% if x == game.player1_pawn.x and y == game.player1_pawn.y %}
+                    <div class="pawn player1"></div>
+                    {% elif x == game.player2_pawn.x and y == game.player2_pawn.y %}
+                    <div class="pawn player2"></div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="controls">
+            <div class="mode-selector">
+                <button id="move-mode" class="active">Move Pawn</button>
+                <button id="fence-mode">Place Fence</button>
+                <select id="fence-orientation" disabled>
+                    <option value="h">Horizontal</option>
+                    <option value="v">Vertical</option>
+                </select>
+            </div>
+            <div id="game-message"></div>
+        </div>
+    </div>
+
+    <!-- Configuration block for passing Django variables to JavaScript -->
+    <script id="game-config" type="application/json">
+        {
+            "gameId": {{ game.id }},
+            "csrfToken": "{{ csrf_token }}",
+            "initialState": {
+                "player1": {
+                    "pawn": {{ game.player1_pawn|json_script }},
+                    "fences": {{ game.player1_fences }}
+                },
+                "player2": {
+                    "pawn": {{ game.player2_pawn|json_script }},
+                    "fences": {{ game.player2_fences }}
+                },
+                "fencesPlaced": {{ game.fences_placed|json_script }},
+                "currentPlayer": "{{ game.current_player.username }}"
+            }
+        }
+        </script>
+    
+        <script src="{% static 'game/js/game.js' %}"></script>
+        <script>
+            // Parse the configuration and initialize the game
+            const config = JSON.parse(document.getElementById('game-config').textContent);
+            initGame(config.gameId, config.csrfToken, config.initialState);
+        </script>
+</body>
+</html>
