@@ -21,7 +21,8 @@ class Command(BaseCommand):
             player2=player2,
             current_player=player1,
             player1_pawn={'x': 4, 'y': 0},
-            player2_pawn={'x': 4, 'y': 8}
+            player2_pawn={'x': 4, 'y': 8},
+            fences_placed=[]
         )
 
         while not game.winner:

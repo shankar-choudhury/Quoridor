@@ -1,0 +1,175 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+#game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.board {
+    display: inline-block;
+    border: 3px solid #333;
+    margin: 20px 0;
+    background-color: #fff;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #ccc;
+    position: relative;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: #e8e8e8;
+}
+
+.pawn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+}
+
+.player1 { background-color: #ff5252; }
+.player2 { background-color: #4285f4; }
+
+/* Fence styling */
+.h-fence {
+    border-bottom: 4px solid #8B4513;
+    margin-bottom: -4px;
+    z-index: 1;
+}
+
+.v-fence {
+    border-right: 4px solid #8B4513;
+    margin-right: -4px;
+    z-index: 1;
+}
+
+.controls {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f0f0f0;
+    border-radius: 6px;
+}
+
+.mode-selector {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+button.active {
+    background-color: #2E7D32;
+}
+
+button:hover:not(:disabled) {
+    background-color: #388E3C;
+}
+
+select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+#game-status {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 4px;
+}
+
+#game-message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+#game-message.show {
+    opacity: 1;
+    max-height: 100px;
+}
+
+#game-message.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border-left: 4px solid #c62828;
+}
+
+#game-message.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+}
+
+/* Highlight for valid moves */
+.cell.valid-move {
+    background-color: #e1f5fe;
+    box-shadow: inset 0 0 0 2px #4fc3f7;
+}
+
+/* Game over state */
+.game-over .cell {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.winner-banner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(46, 125, 50, 0.9);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 8px;
+    font-size: 1.5em;
+    font-weight: bold;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
